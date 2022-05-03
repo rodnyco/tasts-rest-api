@@ -3,6 +3,7 @@ package main
 import (
 	routing "github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/content"
+	"github.com/rodnyco/tasks-rest-api/internal/task"
 	"log"
 	"net/http"
 )
@@ -18,9 +19,8 @@ func buildHandler() http.Handler {
 	router := routing.New()
 	api := router.Group("/api")
 	api.Use(content.TypeNegotiator(content.JSON))
-	api.Get("/", func(context *routing.Context) error {
-		return context.Write("main route")
-	})
+
+	task.RegisterHandlers(api)
 
 	return router
 }
