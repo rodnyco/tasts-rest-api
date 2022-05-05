@@ -8,4 +8,5 @@ require (
 	github.com/jackc/pgx/v4 v4.16.0 // indirect
 	github.com/lib/pq v1.10.5 // indirect
 	github.com/rubenv/sql-migrate v1.1.1 // indirect
+	github.com/stretchr/testify v1.7.1 // indirect
 )

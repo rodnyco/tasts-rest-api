@@ -10,6 +10,7 @@ type Repository interface {
 	Count(ctx context.Context) (int, error)
 	// GetAll TODO: add pagination
 	GetAll(ctx context.Context) ([]Task, error)
+	Create(ctx context.Context, task Task) error
 	Update(ctx context.Context, task Task) error
 	Delete(ctx context.Context, id string) error
 }
@@ -30,17 +31,48 @@ func (r repository) Get(ctx context.Context, id string) (Task, error) {
 }
 
 func (r repository) Count(ctx context.Context) (int, error) {
-	panic("implement me")
+	var count int
+	err := r.db.QueryRowContext(ctx, "SELECT COUNT(*) FROM tasks").Scan(&count)
+
+	return count, err
 }
 
 func (r repository) GetAll(ctx context.Context) ([]Task, error) {
-	panic("implement me")
+	var tasks []Task
+	rows, err := r.db.QueryContext(ctx, "SELECT * FROM tasks")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var task Task
+		if err := rows.Scan(&task.ID, &task.Name, &task.Description, &task.CreatedAt, &task.UpdatedAt); err != nil {
+			return nil, err
+		}
+		tasks = append(tasks, task)
+	}
+	err = rows.Err()
+
+	return tasks, err
+}
+
+func (r repository) Create(ctx context.Context, task Task) error {
+	_, err := r.db.ExecContext(ctx, "INSERT INTO tasks VALUES ($1, $2, $3, $4, $5)", task.ID, task.Name, task.Description, task.CreatedAt, task.UpdatedAt)
+
+	return err
 }
 
 func (r repository) Update(ctx context.Context, task Task) error {
-	panic("implement me")
+	_, err := r.db.ExecContext(ctx, "UPDATE tasks SET name = $1, description = $2, updated_at = $3 WHERE id = $4", task.Name, task.Description, task.UpdatedAt, task.ID)
+	return err
 }
 
 func (r repository) Delete(ctx context.Context, id string) error {
-	panic("implement me")
+	task, err := r.Get(ctx, id)
+	if err != nil {
+		return err
+	}
+	_, err = r.db.ExecContext(ctx, "DELETE FROM tasks WHERE id = $1", task.ID)
+
+	return err
 }
