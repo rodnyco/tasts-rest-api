@@ -5,4 +5,6 @@ go 1.16
 require (
 	github.com/go-ozzo/ozzo-routing v2.1.4+incompatible // indirect
 	github.com/go-ozzo/ozzo-routing/v2 v2.4.0 // indirect
+	github.com/jackc/pgx/v4 v4.16.0 // indirect
+	github.com/rubenv/sql-migrate v1.1.1 // indirect
 )

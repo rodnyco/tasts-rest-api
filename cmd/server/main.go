@@ -9,6 +9,8 @@ import (
 )
 
 func main() {
+	// conn, err := pgx.Connect(context.Background(), )
+
 	hs := &http.Server{Addr: "localhost:8888", Handler: buildHandler()}
 	if err := hs.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Println(err)

@@ -1,0 +1,4 @@
+development:
+  dialect: postgres
+  datasource: dbname=tasks sslmode=disable
+  dir: migrations/
