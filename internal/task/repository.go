@@ -23,7 +23,10 @@ func NewRepository(db *sql.DB) Repository {
 }
 
 func (r repository) Get(ctx context.Context, id string) (Task, error) {
-	panic("implement me")
+	var task Task
+	err := r.db.QueryRowContext(ctx, "SELECT * FROM tasks WHERE id = $1", id).Scan(&task.ID, &task.Name, &task.Description, &task.CreatedAt, &task.UpdatedAt)
+
+	return task, err
 }
 
 func (r repository) Count(ctx context.Context) (int, error) {
