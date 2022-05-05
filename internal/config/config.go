@@ -16,3 +16,10 @@ func DefaultConfig() *Config {
 		DSN: defaultDSN,
 	}
 }
+
+func TestConfig() *Config {
+	return &Config{
+		ServerPort: defaultServerPort,
+		DSN:        "host=127.0.0.1 port=5432 user=user dbname=tasks_test sslmode=disable",
+	}
+}
