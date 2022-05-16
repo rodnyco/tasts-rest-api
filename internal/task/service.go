@@ -6,10 +6,10 @@ type Service interface {
 	Get(ctx context.Context, id string) (Task, error)
 	// TODO: create offset, limit
 	GetAll(ctx context.Context) ([]Task, error)
-	Count(ctx context.Context) int
+	Count(ctx context.Context) (int, error)
 	Create(ctx context.Context, rq CreateTaskRequest) (Task, error)
 	Update(ctx context.Context, id string, rq UpdateTaskRequest) (Task, error)
-	Delete(ctx context.Context, id string)
+	Delete(ctx context.Context, id string) (Task, error)
 }
 
 type CreateTaskRequest struct {
@@ -36,7 +36,7 @@ type service struct {
 	repo Repository
 }
 
-func NewService(repo repository) Service {
+func NewService(repo Repository) Service {
 	return service{repo: repo}
 }
 
@@ -48,7 +48,7 @@ func (s service) GetAll(ctx context.Context) ([]Task, error) {
 	panic("implement me")
 }
 
-func (s service) Count(ctx context.Context) int {
+func (s service) Count(ctx context.Context) (int, error) {
 	panic("implement me")
 }
 
@@ -60,7 +60,7 @@ func (s service) Update(ctx context.Context, id string, rq UpdateTaskRequest) (T
 	panic("implement me")
 }
 
-func (s service) Delete(ctx context.Context, id string) {
+func (s service) Delete(ctx context.Context, id string) (Task, error) {
 	panic("implement me")
 }
 
